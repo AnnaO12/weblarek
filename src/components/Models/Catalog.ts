@@ -1,0 +1,28 @@
+import { IProduct } from "../../types";
+
+export class Catalog {
+  products: IProduct[] = [];
+  selectedProduct: IProduct | null = null;
+
+  saveProducts(products: IProduct[]): void {
+    this.products = products;
+  }
+
+  getProducts(): IProduct[] {
+    return this.products;
+  }
+
+  getProduct(id: string): IProduct | undefined {
+    return this.products.find(function (product) {
+      return product.id === id;
+    });
+  }
+
+  setSelectedProduct(product: IProduct): void {
+    this.selectedProduct = product;
+  }
+
+  getSelectedProduct(): IProduct | null {
+    return this.selectedProduct;
+  }
+}
