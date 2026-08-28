@@ -126,13 +126,13 @@ interface IProduct {
 Интерфейс описывает данные покупателя, необходимые для оформления заказа.
 
 Поля интерфейса: 
-`payment: TPayment` - выбранный способ оплаты.
+`payment: TPayment | null` - выбранный способ оплаты или `null`, если способ оплаты еще не выбран.
 `email: string` - электронная почта покупателя.
 `phone: string` - номер телефона покупателя.
 `address: string` - адрес доставки. 
 
 interface IBuyer {
- `payment: TPayment;`
+ `payment: TPayment | null;`
  `email: string;`
  `phone: string;`
  `address: string;`
@@ -140,8 +140,9 @@ interface IBuyer {
 
 ### Тип TPayment 
 
-Тип описывает доступные способы оплаты и пустое значение "", используемое до выбора способа оплаты.
-`TPayment = "card" | "cash" | ""`
+Тип описывает доступные способы оплаты.
+
+`TPayment = "card" | "cash"`
 
 
 ### Интерфейс IValidationErrors
@@ -188,8 +189,8 @@ interface IValidationErrors {
 Конструктор класса не принимает параметров.
 
 Поля класса: 
-`products: IProduct[]` - массив всех товаров каталога.
-`selectedProduct: IProduct | null` - товар, выбранный для подробного отображения. Если товар не выбран, то хранит null.
+`private products: IProduct[]` - массив всех товаров каталога.
+`private selectedProduct: IProduct | null` - товар, выбранный для подробного отображения. Если товар не выбран, то хранит null.
 
 Методы класса:
 `saveProducts(products: IProduct[]) : void` - принимает массив товаров и сохраняет его в модели.
@@ -205,12 +206,12 @@ interface IValidationErrors {
 Класс отвечает за хранение и работу с товарами, выбранными пользователем для покупки.
 
 Поля класса:
-`items: IProduct[]` - массив товаров, добавленных пользователем в корзину. 
+`private items: IProduct[]` - массив товаров, добавленных пользователем в корзину. 
 
 Методы класса:
 `getBasketProducts(): IProduct[]` - возвращает массив товаров, находящихся в корзине.
 `addProduct(product: IProduct): void` - принимает товар и добавляет его в корзину.
-`removeProduct(product: IProduct): void`- принимает товар и удаляет его из корзины. 
+`removeProduct(id: string): void`- принимает идентификатор товара и удаляет его из корзины. 
 `clearBasket(): void` - очищает корзину. 
 `getTotalPrice(): number` - возвращает общую стоимость всех товаров, находящихся в корзине.
 `getCount(): number` - возвращает количество товаров в корзине. 
@@ -223,10 +224,10 @@ interface IValidationErrors {
 Класс отвечает за хранение и работу с данными покупателя, необходимыми для оформления заказа.
 
 Поля класса:
-`payment: TPayment` - выбранный способ оплаты.
-`email: string` - электронная почта покупателя.
-`phone: string` - номер телефона покупателя.
-`address: string` - адрес доставки. 
+`private payment: TPayment | null` - выбранный способ оплаты или `null`, если способ оплаты еще не выбран.
+`private email: string` - электронная почта покупателя.
+`private phone: string` - номер телефона покупателя.
+`private address: string` - адрес доставки. 
 
 Методы класса:
 `savePayment(payment: TPayment): void` - принимает способ оплаты и сохраняет его в модели.
@@ -247,11 +248,11 @@ interface IValidationErrors {
 `constructor(api: IApi)` - принимает объект, реализующий интерфейс `IApi`, и сохраняет его для выполнения запросов к серверу.
 
 Поля класса: 
-`api: IApi` - объект для выполнения GET и POST запросов.
+`private api: IApi` - объект для выполнения GET и POST запросов.
 
 Методы класса: 
 `getProducts(): Promise<IProductsResponse>` - выполняет GET-запрос на эндпоинт /product/ и возвращает Promise с объектом, полученным от сервера, в котором находится массив товаров.
-`postOrder(order:IOrderRequest): Promise<IOrderResponse>` - принимает данные заказа, выполняет POST-запрос на эндпоинт /order/ и передаёт в него данные, полученные в параметрах метода, возвращает Promise с объектом, подтверждающим покупку на определенную сумму.
+`postOrder(order: IOrderRequest): Promise<IOrderResponse>` - принимает данные заказа, выполняет POST-запрос на эндпоинт /order/ и передаёт в него данные, полученные в параметрах метода, возвращает Promise с объектом, подтверждающим покупку на определенную сумму.
 
 ### Репозиторий
 

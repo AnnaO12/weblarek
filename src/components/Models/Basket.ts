@@ -1,7 +1,7 @@
 import { IProduct } from "../../types";
 
 export class Basket {
-  items: IProduct[] = [];
+  private items: IProduct[] = [];
 
   getBasketProducts(): IProduct[] {
     return this.items;
@@ -11,9 +11,9 @@ export class Basket {
     this.items.push(product);
   }
 
-  removeProduct(product: IProduct): void {
+  removeProduct(id: string): void {
     this.items = this.items.filter(function (item) {
-      return item.id !== product.id;
+      return item.id !== id;
     });
   }
 
@@ -22,12 +22,7 @@ export class Basket {
   }
 
   getTotalPrice(): number {
-    return this.items.reduce(function (sum, product) {
-      if (product.price === null) {
-        return sum;
-      }
-      return sum + product.price;
-    }, 0);
+    return this.items.reduce((sum, item) => sum + (item.price || 0), 0);
   }
 
   getCount(): number {
@@ -35,14 +30,6 @@ export class Basket {
   }
 
   hasProduct(id: string): boolean {
-    const product = this.items.find(function (item) {
-      return item.id === id;
-    });
-
-    if (product !== undefined) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.items.some((item) => item.id === id);
   }
 }

@@ -30,7 +30,7 @@ console.log(
   "Есть ли первый товар в корзине:",
   basket.hasProduct(apiProducts.items[0].id),
 );
-basket.removeProduct(apiProducts.items[0]);
+basket.removeProduct(apiProducts.items[0].id);
 console.log("Корзина после удаления товара:", basket.getBasketProducts());
 basket.clearBasket();
 console.log("Корзина после очистки:", basket.getBasketProducts());

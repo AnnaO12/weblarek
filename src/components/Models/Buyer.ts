@@ -1,10 +1,10 @@
 import { IBuyer, IValidationErrors, TPayment } from "../../types";
 
 export class Buyer {
-  payment: TPayment = "";
-  email: string = "";
-  phone: string = "";
-  address: string = "";
+  private payment: TPayment | null = null;
+  private email: string = "";
+  private phone: string = "";
+  private address: string = "";
 
   savePayment(payment: TPayment): void {
     this.payment = payment;
@@ -32,7 +32,7 @@ export class Buyer {
   }
 
   clearBuyerData(): void {
-    this.payment = "";
+    this.payment = null;
     this.email = "";
     this.phone = "";
     this.address = "";
